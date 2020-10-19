@@ -36,6 +36,12 @@ func Start(group *gin.RouterGroup, s coreSample.Service, point string) {
 			Group:   group,
 		},
 		{
+			Name:    point,
+			Method:  "GET",
+			Handler: readAll,
+			Group:   group,
+		},
+		{
 			Name:    point + "/:id",
 			Method:  "DELETE",
 			Handler: delete,
@@ -107,6 +113,15 @@ func readOne(ctx *gin.Context) (int, *router.Response) {
 	}
 
 	res, errCode, err := service.ReadOne(id)
+	if err != nil {
+		return http.StatusInternalServerError, router.NewResposeError(err.Error(), errCode)
+	}
+
+	return http.StatusOK, router.NewResponseSuccess(res)
+}
+
+func readAll(ctx *gin.Context) (int, *router.Response) {
+	res, errCode, err := service.ReadAll()
 	if err != nil {
 		return http.StatusInternalServerError, router.NewResposeError(err.Error(), errCode)
 	}

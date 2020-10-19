@@ -42,6 +42,17 @@ func (s *Service) ReadOne(id string) (data *entity.Sample, msg string, err error
 	return
 }
 
+// ReadAll -
+func (s *Service) ReadAll() (data []*entity.Sample, msg string, err error) {
+	data, err = s.repo.ReadAll()
+	if err != nil {
+		// TODO add code e erro para esta ação vide mapa
+		msg = ""
+		return
+	}
+	return
+}
+
 // Create -
 func (s *Service) Create(data *entity.Sample) (d *entity.Sample, msg string, err error) {
 	id, err := s.repo.Create(data)

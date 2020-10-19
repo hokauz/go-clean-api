@@ -30,6 +30,25 @@ func (r *MongoRespository) ReadOne(id string) (data *entity.Sample, err error) {
 	return
 }
 
+// ReadAll -
+func (r *MongoRespository) ReadAll() (data []*entity.Sample, err error) {
+	// TODO add filter to injection
+	res, err := r.Collection.Find(r.Context, bson.D{{}})
+	if err != nil {
+		return
+	}
+	for res.Next(r.Context) {
+		var elem entity.Sample
+		err := res.Decode(&elem)
+		if err != nil {
+			break
+		}
+
+		data = append(data, &elem)
+	}
+	return
+}
+
 // Create -
 func (r *MongoRespository) Create(data *entity.Sample) (id string, err error) {
 	// TODO add filter to injection

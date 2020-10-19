@@ -6,6 +6,7 @@ type (
 	// Reader -
 	Reader interface {
 		ReadOne(id string) (*entity.Sample, error)
+		ReadAll() ([]*entity.Sample, error)
 	}
 
 	// Writer -
